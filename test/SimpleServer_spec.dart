@@ -34,32 +34,34 @@ Future main() async {
 
     //start webserver
     SimpleServer server = new SimpleServer("/", "/docroot");
-    await server.start();
+    bool serverStarted = await server.start();
 
-    server.route(
-        // url: "/",
-        // controller: new EmptyRouteController(),
-        responser: new FileResponse("docroot/home.html")
-    )
-    ..route(
-        url: "/error",
-        controller: new RouteControllerError(),
-        responser: new FileResponse("docroot/home.html")
-    )
-    ..route(
-        url: "/error2",
-        controller: new APIController(),
-        responser: new FileResponse("docroot/home.html")
-    )
-    ..route(
-        url: "/exit",
-        controller: new ExitController(server),
-        responser: new FileResponse("docroot/home.html")
-    )
-    ..go();
+    if (serverStarted == true) {
+        server.route(
+            // url: "/",
+            // controller: new EmptyRouteController(),
+            responser: new FileResponse("docroot/home.html")
+        )
+        ..route(
+            url: "/error",
+            controller: new RouteControllerError(),
+            responser: new FileResponse("docroot/home.html")
+        )
+        ..route(
+            url: "/error2",
+            controller: new APIController(),
+            responser: new FileResponse("docroot/home.html")
+        )
+        ..route(
+            url: "/exit",
+            controller: new ExitController(server),
+            responser: new FileResponse("docroot/home.html")
+        )
+        ..go();
 
-    //perform more tests here
+        //perform more tests here
 
-    //close server
-    //server.stop();
+        //close server
+        //server.stop();
+    }
 }
