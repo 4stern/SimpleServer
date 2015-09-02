@@ -19,10 +19,21 @@ class APIController extends RestApiController {
     }
 }
 
+class ExitController extends RestApiController {
+    SimpleServer server;
+
+    ExitController(this.server);
+
+    Future<Map> onGet(HttpRequest request, Map params) async {
+        this.server.stop();
+        return new Map();
+    }
+}
+
 Future main() async {
 
     //start webserver
-    SimpleServer server = new SimpleServer();
+    SimpleServer server = new SimpleServer("/", "/docroot");
     await server.start();
 
     server.route(
@@ -39,10 +50,16 @@ Future main() async {
         url: "/error2",
         controller: new APIController(),
         responser: new FileResponse("docroot/home.html")
-    );
+    )
+    ..route(
+        url: "/exit",
+        controller: new ExitController(server),
+        responser: new FileResponse("docroot/home.html")
+    )
+    ..go();
 
     //perform more tests here
 
     //close server
-    server.stop();
+    //server.stop();
 }

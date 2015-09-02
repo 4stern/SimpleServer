@@ -14,7 +14,10 @@ class SimpleServer {
     RouteProvider provider;
     bool readyToStart = false;
 
-    SimpleServer();
+    String defaultRoute;
+    String staticContentRoot;
+
+    SimpleServer(this.defaultRoute, this.staticContentRoot);
 
     Future<bool> start() async {
         try {
@@ -24,7 +27,7 @@ class SimpleServer {
                 if (serverConfig.containsKey('port')) {
                     this.port = int.parse(serverConfig["port"].toString());
 
-                    this._init();
+                    await this._init();
                     return true;
                 } else {
                     throw new StateError('Config failed: missing port value');
@@ -53,7 +56,7 @@ class SimpleServer {
         this.server = await HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, this.port);
         print('listening on localhost, port ' + this.port.toString());
 
-        this.provider = new RouteProvider(server, {"defaultRoute": "/", "staticContentRoot": "/docroot"});
+        this.provider = new RouteProvider(server, {"defaultRoute": this.defaultRoute, "staticContentRoot": this.staticContentRoot});
     }
 
     SimpleServer route({
@@ -61,12 +64,20 @@ class SimpleServer {
         RouteController controller,
         ResponseHandler responser
     }) {
+        print("add route: "+url);
         if (this.provider != null) {
             this.provider.route(
                 url: url,
                 controller: controller,
                 responser: responser
             );
+        }
+        return this;
+    }
+
+    SimpleServer go() {
+        if (this.provider != null) {
+            this.provider.start();
         }
         return this;
     }
