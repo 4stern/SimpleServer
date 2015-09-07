@@ -62,6 +62,6 @@ Future main() async {
         //perform more tests here
 
         //close server
-        //server.stop();
+        server.stop();
     }
 }
