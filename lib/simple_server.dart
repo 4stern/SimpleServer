@@ -19,6 +19,8 @@ class SimpleServer {
 
     SimpleServer(this.defaultRoute, this.staticContentRoot);
 
+    int getPort() => this.port;
+
     Future<bool> start() async {
         try {
             this.config = await loadConfig();
