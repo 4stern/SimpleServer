@@ -1,8 +1,8 @@
-library SimpleServer;
+library simple_server;
 
 import 'dart:async';
 import 'dart:io';
-import 'package:SimpleServer/SimpleServer.dart';
+import 'package:simple_server/simple_server.dart';
 import 'package:route_provider/route_provider.dart';
 
 class RouteControllerError extends RouteController {

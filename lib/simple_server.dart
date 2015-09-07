@@ -1,4 +1,4 @@
-library SimpleServer;
+library simple_server;
 
 import 'dart:async';
 import 'dart:io';
