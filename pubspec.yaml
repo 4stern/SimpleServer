@@ -2,7 +2,7 @@ name: simple_server
 description: >
   Wrappes the dart.io HTTPServer and provides an simple API
   to manage incomming calls. uses the dart_routing package
-version: 0.1.0
+version: 0.1.1
 author: Robert Beyer <4sternrb@googlemail.com>
 homepage: https://github.com/4stern/SimpleServer
 dependencies:
