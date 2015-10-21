@@ -32,8 +32,21 @@ class ExitController extends RestApiController {
 
 Future main() async {
 
+    SecurityContext context = new SecurityContext();
+    var chain = Platform.script.resolve('certificates/server_chain.pem').toFilePath();
+    var key = Platform.script.resolve('certificates/server_key.pem').toFilePath();
+    context.useCertificateChain(chain);
+    context.usePrivateKey(key, password: 'dartdart');
+
+    HttpServer secureServer = await HttpServer.bindSecure(InternetAddress.ANY_IP_V6, 443, context);
+    secureServer.listen((HttpRequest request) {
+        request.response.write('Hello, world!');
+        request.response.close();
+    });
+
+
     //start webserver
-    SimpleServer server = new SimpleServer("/", "/docroot");
+    /*SimpleServer server = new SimpleServer("/", "/docroot");
     bool serverStarted = await server.start();
 
     if (serverStarted == true) {
@@ -63,5 +76,5 @@ Future main() async {
 
         //close server
         server.stop();
-    }
+    }*/
 }

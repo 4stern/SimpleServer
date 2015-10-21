@@ -64,14 +64,16 @@ class SimpleServer {
     SimpleServer route({
         String url: "/",
         RouteController controller,
-        ResponseHandler responser
+        ResponseHandler responser,
+        Auth auth
     }) {
         print("add route: "+url);
         if (this.provider != null) {
             this.provider.route(
                 url: url,
                 controller: controller,
-                responser: responser
+                responser: responser,
+                auth: auth
             );
         }
         return this;
